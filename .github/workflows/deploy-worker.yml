@@ -48,18 +48,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check if project changed
-        id: changes
-        run: |
-          git fetch origin main
-          if git diff --quiet origin/main -- app/${{ matrix.project }}; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
+      # - name: Check if project changed
+      #   id: changes
+      #   run: |
+      #     git fetch origin main
+      #     if git diff --quiet origin/main -- app/${{ matrix.project }}; then
+      #       echo "changed=false" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "changed=true" >> $GITHUB_OUTPUT
+      #     fi
       - name: Deploy with Wrangler
         # if: github.event.inputs.deploy-all == true
         run: |
-          pnpm dlx wrangler deploy --env production --name crappy-services-${{ matrix.worker }}
+          pnpm dlx wrangler deploy --env ${{github.event.inputs.environment}} --name crappy-services-${{ matrix.worker }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
