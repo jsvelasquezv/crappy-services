@@ -58,7 +58,7 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
       - name: Deploy with Wrangler
-        if: steps.changes.outputs.changed == 'true' || github.event.inputs.force == true
+        if: github.event.inputs.deploy-all == true
         run: |
           pnpm dlx wrangler deploy --env production --project-name ${{ matrix.project }}
         env:
