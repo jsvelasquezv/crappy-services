@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ebola-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-07",
+  // "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  }
+  // "vars": {
+  //   "MY_VAR": "my-variable"
+  // }
+}

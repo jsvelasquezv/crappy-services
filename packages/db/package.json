@@ -1,0 +1,26 @@
+{
+  "name": "@ebola/db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "push": "drizzle-kit push",
+    "pull": "drizzle-kit pull",
+    "check": "drizzle-kit check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "drizzle-kit": "^0.31.1",
+    "drizzle-orm": "^0.43.1",
+    "postgres": "^3.4.7",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}

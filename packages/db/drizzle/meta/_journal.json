@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1748068496178,
+      "tag": "0000_create-function-update-updatedAt-column",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748069365921,
+      "tag": "0001_cultured_morlocks",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748069527608,
+      "tag": "0002_yellow_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1748221856163,
+      "tag": "0003_abandoned_frog_thor",
+      "breakpoints": true
+    }
+  ]
+}

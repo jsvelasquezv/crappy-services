@@ -1,0 +1,52 @@
+name: Deploy Cloudflare Workers
+
+on:
+  push:
+    paths:
+      - 'apps/**'
+    branches:
+      - main
+
+jobs:
+  deploy-workers:
+    name: Deploy Cloudflare Workers
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        worker:
+          - frontend
+          - api
+
+    defaults:
+      run:
+        working-directory: packages/${{ matrix.worker }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check if project changed
+        id: changes
+        run: |
+          git fetch origin main
+          if git diff --quiet origin/main -- app/${{ matrix.project }}; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      - name: Deploy with Wrangler
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          pnpm dlx wrangler deploy --env production --project-name ${{ matrix.project }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
