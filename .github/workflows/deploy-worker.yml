@@ -49,7 +49,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build frontend
-        if: matrix.project == 'frontend'
+        if: matrix.worker == 'frontend'
         run: pnpm build
 
       # - name: Check if project changed
