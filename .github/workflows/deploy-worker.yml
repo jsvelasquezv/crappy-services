@@ -48,6 +48,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build frontend
+        if: matrix.project == 'frontend'
+        run: pnpm build
+
       # - name: Check if project changed
       #   id: changes
       #   run: |
