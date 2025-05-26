@@ -6,8 +6,8 @@
   // "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "DATABASE_URL": "DATABASE_URL"
   }
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // }
 }
