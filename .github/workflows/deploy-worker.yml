@@ -60,6 +60,6 @@ jobs:
       - name: Deploy with Wrangler
         # if: github.event.inputs.deploy-all == true
         run: |
-          pnpm dlx wrangler deploy --env production --project-name ${{ matrix.project }}
+          pnpm dlx wrangler deploy --env production --project-name crappy-services-${{ matrix.worker }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
