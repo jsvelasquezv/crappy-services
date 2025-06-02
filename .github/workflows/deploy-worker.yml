@@ -65,8 +65,6 @@ jobs:
         run: |
           cat > .env.secrets << EOF
           DATABASE_URL=${{ secrets.DATABASE_URL }}
-          API_KEY=${{ secrets.API_KEY }}
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
           EOF
 
       - name: Push secrets to Cloudflare
