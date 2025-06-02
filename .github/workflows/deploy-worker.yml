@@ -61,6 +61,22 @@ jobs:
       #     else
       #       echo "changed=true" >> $GITHUB_OUTPUT
       #     fi
+      - name: Create secrets file
+        run: |
+          cat > .env.secrets << EOF
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          API_KEY=${{ secrets.API_KEY }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          EOF
+
+      - name: Push secrets to Cloudflare
+        run: |
+          pnpm dlx wrangler secret:bulk .env.secrets --name crappy-services-${{ matrix.worker }}
+          rm .env.secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Deploy with Wrangler
         # if: github.event.inputs.deploy-all == true
         # run: |
