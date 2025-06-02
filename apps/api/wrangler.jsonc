@@ -9,5 +9,17 @@
   },
   "vars": {
     "DATABASE_URL": "DATABASE_URL"
+  },
+  "env": {
+    "production": {
+      "vars": {
+        "DATABASE_URL": "DATABASE_URL"
+      }
+    },
+    "preview": {
+      "vars": {
+        "DATABASE_URL": "DATABASE_URL"
+      }
+    }
   }
 }
