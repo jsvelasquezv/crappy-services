@@ -71,7 +71,7 @@ jobs:
 
       - name: Push secrets to Cloudflare
         run: |
-          pnpm dlx wrangler secret:bulk .env.secrets --name crappy-services-${{ matrix.worker }}
+          pnpm dlx wrangler secret bulk .env.secrets --name crappy-services-${{ matrix.worker }}
           rm .env.secrets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
