@@ -63,25 +63,24 @@ jobs:
       #     fi
       - name: Create secrets file
         run: |
-          cat > .dev.vars.${{ github.event.inputs.environment }} << EOF
+          cat > .env.secrets << EOF
           DATABASE_URL=${{ secrets.DATABASE_URL }}
           EOF
 
-      # - name: Push secrets to Cloudflare
-      #   run: |
-      #     pnpm dlx wrangler secret bulk .env.secrets --name crappy-services-${{ matrix.worker }}
-      #     rm .env.secrets
-      #   env:
-      #     CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      #     CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Push secrets to Cloudflare
+        run: |
+          pnpm dlx wrangler secret bulk .env.secrets --name crappy-services-${{ matrix.worker }}
+          rm .env.secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Deploy with Wrangler
         # if: github.event.inputs.deploy-all == true
         # run: |
         #   pnpm dlx wrangler deploy --env ${{github.event.inputs.environment}} --name crappy-services-${{ matrix.worker }}
         run: |
-          pnpm dlx wrangler deploy --name crappy-services-${{ matrix.worker }} --env ${{ github.event.inputs.environment }}
+          pnpm dlx wrangler deploy --name crappy-services-${{ matrix.worker }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
