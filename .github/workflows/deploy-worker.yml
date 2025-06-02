@@ -11,7 +11,10 @@ on:
       deploy-all:
         description: 'Deploy all Workers?'
         required: true
-        default: 'false'
+        type: boolean
+      environment:
+        description: 'Environment to deploy to'
+        type: environment
 
 jobs:
   deploy-workers:
@@ -26,14 +29,16 @@ jobs:
 
     defaults:
       run:
-        working-directory: packages/${{ matrix.worker }}
+        working-directory: apps/${{ matrix.worker }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -43,18 +48,39 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check if project changed
-        id: changes
+      - name: Build frontend
+        if: matrix.worker == 'frontend'
+        run: pnpm build
+
+      # - name: Check if project changed
+      #   id: changes
+      #   run: |
+      #     git fetch origin main
+      #     if git diff --quiet origin/main -- app/${{ matrix.project }}; then
+      #       echo "changed=false" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "changed=true" >> $GITHUB_OUTPUT
+      #     fi
+      - name: Create secrets file
         run: |
-          git fetch origin main
-          if git diff --quiet origin/main -- app/${{ matrix.project }}; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-      - name: Deploy with Wrangler
-        if: steps.changes.outputs.changed == 'true' || github.event.inputs.force == 'true'
+          cat > .env.secrets << EOF
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          EOF
+
+      - name: Push secrets to Cloudflare
         run: |
-          pnpm dlx wrangler deploy --env production --project-name ${{ matrix.project }}
+          pnpm dlx wrangler secret bulk << .env.secrets --name crappy-services-${{ matrix.worker }}
+          rm .env.secrets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Deploy with Wrangler
+        # if: github.event.inputs.deploy-all == true
+        # run: |
+        #   pnpm dlx wrangler deploy --env ${{github.event.inputs.environment}} --name crappy-services-${{ matrix.worker }}
+        run: |
+          pnpm dlx wrangler deploy --name crappy-services-${{ matrix.worker }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

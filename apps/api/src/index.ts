@@ -9,6 +9,7 @@ export type Env = {
 const app = new Hono<{ Bindings: Env }>();
 
 app.get('/birthdays', async (c) => {
+  console.log('chololom', c.env.DATABASE_URL);
   const { db } = getDBClient(c.env.DATABASE_URL);
   const usrs = await db.select().from(users);
   return c.json(usrs);

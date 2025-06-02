@@ -6,8 +6,27 @@
   // "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    // "DATABASE_URL": "DATABASE_URL"
+  },
+  // "secrets_store_secrets": [
+  //   {
+  //     "binding": "DATABASE_URL",
+  //     "store_id": "crappy-services-api",
+  //     "secret_name": "crappy-services-api"
+  //   }
+  // ],
+  "env": {
+    "production": {
+      // "vars": {
+      //   "DATABASE_URL": "DATABASE_URL"
+      // }
+    },
+    "preview": {
+      // "vars": {
+      //   "DATABASE_URL": "DATABASE_URL"
+      // }
+    }
   }
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // }
 }
