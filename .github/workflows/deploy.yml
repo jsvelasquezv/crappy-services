@@ -19,7 +19,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'preview' }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.10.0
 
       - name: Install dependencies
         run: pnpm install
