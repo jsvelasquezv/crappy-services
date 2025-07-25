@@ -13,6 +13,14 @@
   },
   "observability": {
     "enabled": true
+  },
+  "env": {
+    "preview": {
+      "name": "ebola-frontend-preview"
+    },
+    "production": {
+      "name": "ebola-frontend-production"
+    }
   }
 
   /**

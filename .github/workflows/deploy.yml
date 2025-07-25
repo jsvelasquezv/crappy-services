@@ -41,7 +41,7 @@ jobs:
         run: pnpm --filter @ebola/frontend build
 
       - name: Deploy API to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v4
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -49,9 +49,11 @@ jobs:
           command: deploy --env ${{ github.event.inputs.environment || 'preview' }}
 
       - name: Deploy Frontend to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v4
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: apps/frontend
-          command: deploy --env ${{ github.event.inputs.environment || 'preview' }}
+          command: deploy --name ebola-frontend-${{github.event.inputs.environment || 'preview' }}
+        env:
+          CLOUDFLARE_ENVIRONMENT: ${{ github.event.inputs.environment || 'preview' }}
