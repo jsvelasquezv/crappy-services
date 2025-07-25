@@ -4,13 +4,17 @@
     "dev": "wrangler dev",
     "dev:remote": "wrangler dev --remote",
     "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@ebola/db": "workspace:*",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.36.4",
     "hono": "^4.7.9"
   },
   "devDependencies": {
+    "drizzle-kit": "^0.27.2",
     "wrangler": "^4.4.0"
   }
 }

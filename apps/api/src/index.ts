@@ -1,15 +1,14 @@
-import { getDBClient } from '@ebola/db';
-import { users } from '@ebola/db/schema';
 import { Hono } from 'hono';
+import { createDB, users } from './db';
 
 export type Env = {
-  DATABASE_URL: string;
+  D1_DB: D1Database;
 };
 
 const app = new Hono<{ Bindings: Env }>();
 
 app.get('/birthdays', async (c) => {
-  const { db } = getDBClient(c.env.DATABASE_URL);
+  const db = createDB(c.env.D1_DB);
   const usrs = await db.select().from(users);
   return c.json(usrs);
 });

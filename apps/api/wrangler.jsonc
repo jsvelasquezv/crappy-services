@@ -3,11 +3,36 @@
   "name": "ebola-api",
   "main": "src/index.ts",
   "compatibility_date": "2025-05-07",
-  // "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "D1_DB",
+      "database_name": "ebola-services-prod",
+      "database_id": "78ee9966-78ca-4293-a61a-e9b94be15b0e",
+      "preview_database_id": "e797cb06-81ec-42fb-8285-bb95324a4b6f"
+    }
+  ],
+  "env": {
+    "preview": {
+      "d1_databases": [
+        {
+          "binding": "D1_DB",
+          "database_name": "ebola-services-preview",
+          "database_id": "e797cb06-81ec-42fb-8285-bb95324a4b6f"
+        }
+      ]
+    },
+    "production": {
+      "d1_databases": [
+        {
+          "binding": "D1_DB",
+          "database_name": "ebola-services-prod",
+          "database_id": "78ee9966-78ca-4293-a61a-e9b94be15b0e"
+        }
+      ]
+    }
   }
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // }
 }
