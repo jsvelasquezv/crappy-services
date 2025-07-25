@@ -1,9 +1,7 @@
-import { getDBClient, type dbType } from '@ebola/db';
 import { createRequestHandler } from 'react-router';
 
 export interface Env {
   VALUE_FROM_CLOUDFLARE: string;
-  DATABASE_URL: string;
 }
 
 declare module 'react-router' {
@@ -12,7 +10,6 @@ declare module 'react-router' {
       env: Env;
       ctx: ExecutionContext;
     };
-    db: dbType;
   }
 }
 
@@ -23,10 +20,8 @@ const requestHandler = createRequestHandler(
 
 export default {
   async fetch(request, env, ctx) {
-    const { db } = getDBClient(env.DATABASE_URL);
     return requestHandler(request, {
       cloudflare: { env, ctx },
-      db,
     });
   },
 } satisfies ExportedHandler<Env>;

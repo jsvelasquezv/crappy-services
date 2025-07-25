@@ -7,7 +7,6 @@
     "app/**/.client/**/*",
     "workers/**/*",
     "worker-configuration.d.ts",
-    "database/**/*"
   ],
   "compilerOptions": {
     "composite": true,

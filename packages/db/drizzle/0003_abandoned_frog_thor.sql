@@ -1,1 +1,0 @@
-ALTER TABLE "clients" ADD COLUMN "created_by" varchar(255) NOT NULL;
