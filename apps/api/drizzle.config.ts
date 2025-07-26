@@ -16,3 +16,4 @@ export default defineConfig({
 });
 
 // TODO: Check this later to setup local migrations https://github.com/drizzle-team/drizzle-orm/discussions/1388
+// TODO: Check this later to setup multiple https://github.com/drizzle-team/drizzle-orm/discussions/2832 config per env

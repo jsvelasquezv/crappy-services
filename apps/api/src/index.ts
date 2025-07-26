@@ -1,16 +1,30 @@
 import { Hono } from 'hono';
-import { createDB, users } from './db';
+import { createDB } from './db';
+import { getByBirthday, getByUsername } from './users/repository';
 
 export type Env = {
   D1_DB: D1Database;
+  BOTNORREA_API_URL: string;
+  BOTNORREA_USERNAME: string;
+  BOTNORREA_PASSWORD: string;
+  BOTNORREA_CHAT_ID: number;
 };
 
 const app = new Hono<{ Bindings: Env }>();
 
 app.get('/birthdays', async (c) => {
   const db = createDB(c.env.D1_DB);
-  const usrs = await db.select().from(users);
-  return c.json(usrs);
+  const users = await getByBirthday(db);
+
+  return c.json(users);
+});
+
+app.get('/users/:username', async (c) => {
+  const username = c.req.param('username');
+  const db = createDB(c.env.D1_DB);
+  const user = await getByUsername(db, username);
+
+  return c.json(user);
 });
 
 app.get('/exchange', async (c) => {
@@ -28,4 +42,39 @@ app.get('/exchange', async (c) => {
   return c.json({ usd, eur, gbp });
 });
 
-export default app;
+// TODO: Refactor cron logic
+export default {
+  fetch: app.fetch,
+  async scheduled(
+    controller: ScheduledController,
+    env: Env,
+    _ctx: ExecutionContext
+  ) {
+    switch (controller.cron) {
+      case '30 13 * * *':
+        const db = createDB(env.D1_DB);
+        const users = await getByBirthday(db);
+        if (users.length <= 0) {
+          console.log('No birthdays today :(');
+          return;
+        }
+        const usernames = users.map((user) => '@' + user.username).join(' ');
+        console.log('Happy birthday', usernames);
+        const birtdayMessage = 'Feliz pumpesito 🥳🎉 ' + usernames;
+        const auth = btoa(
+          `${env.BOTNORREA_USERNAME}:${env.BOTNORREA_PASSWORD}`
+        );
+        await fetch(env.BOTNORREA_API_URL + '/telegram/send-message', {
+          method: 'POST',
+          headers: {
+            Authorization: `Basic ${auth}`,
+          },
+          body: JSON.stringify({
+            text: birtdayMessage,
+            chat_id: env.BOTNORREA_CHAT_ID,
+          }),
+        });
+        break;
+    }
+  },
+};

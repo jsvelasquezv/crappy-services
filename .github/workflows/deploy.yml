@@ -46,7 +46,14 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: apps/api
-          command: deploy --env ${{ github.event.inputs.environment || 'preview' }}
+          environment: ${{ github.event.inputs.environment || 'preview' }}
+          command: deploy --name ebola-api-${{github.event.inputs.environment || 'preview' }}
+          secrets: |
+            BOTNORREA_USERNAME
+            BOTNORREA_PASSWORD
+        env:
+          BOTNORREA_USERNAME: ${{ secrets.BOTNORREA_USERNAME }}
+          BOTNORREA_PASSWORD: ${{ secrets.BOTNORREA_PASSWORD }}
 
       - name: Deploy Frontend to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
