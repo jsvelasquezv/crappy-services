@@ -8,6 +8,13 @@
       "when": 1753218468475,
       "tag": "0000_gorgeous_the_initiative",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1753458851782,
+      "tag": "0001_sturdy_solo",
+      "breakpoints": true
     }
   ]
 }
