@@ -15,6 +15,13 @@
       "preview_database_id": "e797cb06-81ec-42fb-8285-bb95324a4b6f"
     }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "b6e6b79057c84581b3cdc65ff5eb571a",
+      "preview_id": "77e5042d560b41fab7799296f68d50c0"
+    }
+  ],
   "triggers": {
     "crons": ["30 13 * * *"]
   },
@@ -31,6 +38,13 @@
           "database_id": "e797cb06-81ec-42fb-8285-bb95324a4b6f"
         }
       ],
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "973e81f214da4f0b8cf5bc52934489ce",
+          "preview_id": "77e5042d560b41fab7799296f68d50c0"
+        }
+      ],
       "vars": {
         "BOTNORREA_API_URL": "https://bhmmmrlil8.execute-api.us-east-2.amazonaws.com/dev/botnorrea-v2-telegram-dev",
         "BOTNORREA_CHAT_ID": -1002803723716
@@ -42,6 +56,13 @@
           "binding": "D1_DB",
           "database_name": "ebola-services-prod",
           "database_id": "78ee9966-78ca-4293-a61a-e9b94be15b0e"
+        }
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "KV",
+          "id": "b6e6b79057c84581b3cdc65ff5eb571a",
+          "preview_id": "77e5042d560b41fab7799296f68d50c0"
         }
       ],
       "vars": {

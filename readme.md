@@ -11,4 +11,6 @@ To run migrations:
 - Run api locally
   `pn --filter @ebola/api dev:remote --env production --test-scheduled`
 
+Running the api with dev will use the preview kv even if passing the --env flag
+
 TODO: Complete this readme
