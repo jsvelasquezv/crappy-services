@@ -1,6 +1,10 @@
 import { Hono } from 'hono';
 import { createDB } from './db';
-import { getByBirthday, getByUsername } from './users/repository';
+import {
+  getByBirthday,
+  getByUsername,
+  getNextNBirthdays,
+} from './users/repository';
 
 export type Env = {
   D1_DB: D1Database;
@@ -15,6 +19,18 @@ const app = new Hono<{ Bindings: Env }>();
 app.get('/birthdays', async (c) => {
   const db = createDB(c.env.D1_DB);
   const users = await getByBirthday(db);
+
+  return c.json(users);
+});
+
+app.get('/birthdays/next', async (c) => {
+  const n = +(c.req.query('n') || 5);
+  if (isNaN(n) || n <= 0 || n > 10) {
+    return c.json({ error: 'Invalid number parameter, min 1, max 10' }, 400);
+  }
+
+  const db = createDB(c.env.D1_DB);
+  const users = await getNextNBirthdays(db, n);
 
   return c.json(users);
 });
