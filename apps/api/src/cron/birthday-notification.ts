@@ -15,7 +15,7 @@ export async function handleBirthdayNotification(env: Env) {
   const usernames = users.map((user) => '@' + user.username).join(' ');
   console.log('Happy birthday', usernames);
 
-  const birtdayMessage = 'Feliz pumpesito 🥳🎉 ' + usernames;
+  const birthdayMessage = 'Feliz pumpesito 🥳🎉 ' + usernames;
 
   const botnoreaAPI = new BotnoreaAPI({
     apiUrl: env.BOTNORREA_API_URL,
@@ -23,5 +23,12 @@ export async function handleBirthdayNotification(env: Env) {
     password: env.BOTNORREA_PASSWORD,
   });
 
-  await botnoreaAPI.sendTelegramMessage(birtdayMessage, env.BOTNORREA_CHAT_ID);
+  try {
+    await botnoreaAPI.sendTelegramMessage(
+      birthdayMessage,
+      env.BOTNORREA_CHAT_ID
+    );
+  } catch (error) {
+    console.error('Failed to send birthday message:', error);
+  }
 }

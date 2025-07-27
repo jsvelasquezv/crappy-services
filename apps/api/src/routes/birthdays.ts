@@ -11,7 +11,7 @@ app.get('/', async (c) => {
 });
 
 app.get('/next', async (c) => {
-  const n = +(c.req.query('n') || 5);
+  const n = parseInt(c.req.query('n') || '5');
   if (isNaN(n) || n <= 0 || n > 10) {
     return c.json({ error: 'Invalid number parameter, min 1, max 10' }, 400);
   }

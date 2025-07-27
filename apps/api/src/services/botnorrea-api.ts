@@ -26,15 +26,4 @@ export class BotnoreaAPI {
       }),
     });
   }
-
-  async makeRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
-    return fetch(`${this.config.apiUrl}${endpoint}`, {
-      ...options,
-      headers: {
-        Authorization: this.authHeader,
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    });
-  }
 }

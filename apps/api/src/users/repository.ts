@@ -1,11 +1,12 @@
 import { format } from 'date-fns';
 import { eq, isNotNull, sql } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
+import { BIRTHDAY_DATE_FORMAT } from '../../constants';
 import { users } from '../db';
 import * as schema from '../db/schema';
 
 export function getByBirthday(db: DrizzleD1Database<typeof schema>) {
-  const date = format(new Date(), 'MM-dd');
+  const date = format(new Date(), BIRTHDAY_DATE_FORMAT);
   return db.select().from(users).where(eq(users.dateOfBirth, date));
 }
 
@@ -14,7 +15,7 @@ export function getNextNBirthdays(
   n: number
 ) {
   const now = new Date();
-  const today = format(now, 'MM-dd');
+  const today = format(now, BIRTHDAY_DATE_FORMAT);
   const currentYear = now.getFullYear();
   const nextYear = currentYear + 1;
 
