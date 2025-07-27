@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { eq, sql, isNotNull } from 'drizzle-orm';
+import { eq, isNotNull, sql } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { users } from '../db';
 import * as schema from '../db/schema';
