@@ -9,11 +9,14 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.36.4",
-    "hono": "^4.7.9"
+    "hono": "^4.7.9",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "drizzle-kit": "^0.27.2",
     "wrangler": "^4.4.0"
   }
