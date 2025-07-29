@@ -10,7 +10,7 @@ app.get('/', async (c) => {
   return c.json(users);
 });
 
-app.get('/next', async (c) => {
+app.on(['GET', 'POST'], '/next', async (c) => {
   const n = parseInt(c.req.query('n') || '5');
   if (isNaN(n) || n <= 0 || n > 10) {
     return c.json({ error: 'Invalid number parameter, min 1, max 10' }, 400);
