@@ -38,8 +38,8 @@ app.on(
 
     const body = await c.req.json();
     const chatId = body?.message?.chat?.id;
-    if (!chatId) {
-      return c.json({ error: 'chatId is required' }, 400);
+    if (chatId !== c.env.BOTNORREA_CHAT_ID) {
+      return c.json({ error: 'Unauthorized to do this action in this chat' }, 403);
     }
 
     const replyToMessageId = body?.message?.message_id;
@@ -58,7 +58,7 @@ app.on(
     try {
       await botnoreaAPI.sendTelegramMessage(
         `Siguientes pumpesitos 🥳🎉:\n${usernames}`,
-        chatId,
+        c.env.BOTNORREA_CHAT_ID,
         replyToMessageId
       );
     } catch (error) {
