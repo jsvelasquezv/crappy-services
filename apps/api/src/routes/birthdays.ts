@@ -1,4 +1,5 @@
 import factoryWithDB from '../factories/app-with-db';
+import { BotnoreaAPI } from '../services/botnorrea-api';
 import { getByBirthday, getNextNBirthdays } from '../users/repository';
 import { vValidator } from '@hono/valibot-validator';
 import {
@@ -35,10 +36,37 @@ app.on(
   async (c) => {
     const { n } = c.req.valid('query');
 
+    const body = await c.req.json();
+    const chatId = body?.message?.chat?.id;
+    if (!chatId) {
+      return c.json({ error: 'chatId is required' }, 400);
+    }
+
+    const replyToMessageId = body?.message?.message_id;
+
     const db = c.get('db');
     const users = await getNextNBirthdays(db, n);
 
-    return c.json(users);
+    const usernames = users.map((user) => `@${user?.username} - ${user?.dateOfBirth}`).join('\n');
+
+    const botnoreaAPI = new BotnoreaAPI({
+      apiUrl: c.env.BOTNORREA_API_URL,
+      username: c.env.BOTNORREA_USERNAME,
+      password: c.env.BOTNORREA_PASSWORD,
+    });
+
+    try {
+      await botnoreaAPI.sendTelegramMessage(
+        `Siguientes pumpesitos 🥳🎉:\n${usernames}`,
+        chatId,
+        replyToMessageId
+      );
+    } catch (error) {
+      console.error('Failed to send birthday message:', error);
+      return c.json({ error: 'Failed to send birthday message' }, 500);
+    }
+
+    return c.json({ message: 'ok' });
   }
 );
 

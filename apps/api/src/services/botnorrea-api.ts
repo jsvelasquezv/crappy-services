@@ -13,7 +13,7 @@ export class BotnoreaAPI {
     this.authHeader = `Basic ${btoa(`${config.username}:${config.password}`)}`;
   }
 
-  async sendTelegramMessage(text: string, chatId: number): Promise<Response> {
+  async sendTelegramMessage(text: string, chatId: number, replyToMessageId?: number): Promise<Response> {
     return fetch(`${this.config.apiUrl}/telegram/send-message`, {
       method: 'POST',
       headers: {
@@ -23,6 +23,7 @@ export class BotnoreaAPI {
       body: JSON.stringify({
         text,
         chat_id: chatId,
+        reply_to_message_id: replyToMessageId,
       }),
     });
   }
