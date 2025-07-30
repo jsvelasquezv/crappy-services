@@ -15,6 +15,20 @@
       "when": 1753458851782,
       "tag": "0001_sturdy_solo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1753896123347,
+      "tag": "0002_long_stark_industries",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1753905570339,
+      "tag": "0003_brainy_clint_barton",
+      "breakpoints": true
     }
   ]
 }
