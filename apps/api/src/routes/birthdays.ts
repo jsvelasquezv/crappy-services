@@ -37,9 +37,12 @@ app.on(
     const { n } = c.req.valid('query');
 
     const body = await c.req.json();
-    const chatId = body?.message?.chat?.id;
+    const chatId = body?.chat?.id;
     if (chatId !== c.env.BOTNORREA_CHAT_ID) {
-      return c.json({ error: 'Unauthorized to do this action in this chat' }, 403);
+      return c.json(
+        { error: 'Unauthorized to do this action in this chat' },
+        403
+      );
     }
 
     const replyToMessageId = body?.message?.message_id;
@@ -47,7 +50,9 @@ app.on(
     const db = c.get('db');
     const users = await getNextNBirthdays(db, n);
 
-    const usernames = users.map((user) => `@${user?.username} - ${user?.dateOfBirth}`).join('\n');
+    const usernames = users
+      .map((user) => `@${user?.username} - ${user?.dateOfBirth}`)
+      .join('\n');
 
     const botnoreaAPI = new BotnoreaAPI({
       apiUrl: c.env.BOTNORREA_API_URL,
