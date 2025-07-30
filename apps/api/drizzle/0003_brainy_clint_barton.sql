@@ -1,0 +1,1 @@
+ALTER TABLE `media` ADD `updated_at` integer NOT NULL;
